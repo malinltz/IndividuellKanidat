@@ -38,18 +38,17 @@ for i = 0:tid
    for j = 1:rows
     if (klockan == kundlista(j,6)) % Kund ringer in 
         kundlista(j,8) = 1;
-        if(1 == kundlista(j,8))
         for k = 1:10
         if (Taxibilar(k,1) == 0)    % Tilldelar en taxi ett jobb
             Taxibilar(k,4) = Taxibilar(k,4) + 1;
             Taxibilar(k,1) = 1;
+            kundlista(j,8) = 2;
             % Beräknar riktningen taxin ska färdas för att hämta upp en %kund.
             riktning_x(k,1) = (kundlista(j,2) - Taxibilar(k,2));
             riktning_x(k,2) = riktning_x(k,1)/abs(riktning_x(k,1));
             riktning_y(k,1) = (kundlista(j,4) - Taxibilar(k,3));
             riktning_y(k,2) = riktning_y(k,1)/abs( riktning_y(k,1));
-          break % Avbryter loopen när en taxi tilldelas en kund.
-        end   
+          break % Avbryter loopen när en taxi tilldelas en kund.   
       end
      end
     end
@@ -62,8 +61,10 @@ for i = 0:tid
             if(Taxibilar(k,2) == kundlista(j,3) && Taxibilar(k,3) ~= kundlista(j,4))
                 Taxibilar(k,3) = Taxibilar(k,3) + (riktning_y(k,2))/12;
             end
-            Taxibilar(k,1) = 0; %Kunden har avlämnats
-         end 
+            if(Taxibilar(k,2) == kundlista(j,3) && Taxibilar(k,3) == kundlista(j,4))
+           Taxibilar(k,1) = 0; %Kunden har avlämnats
+            end
+        end
     end
     end 
     klockan = klockan +1;
