@@ -1,4 +1,4 @@
-%% Kandidat projekt , heuristik 1
+%% Kandidat projekt , heuristik 2
 
 % Karta över fiktiv stad.
 xled = 60;
@@ -12,11 +12,14 @@ Taxibilar(:,3) = 30; % Startposition för taxibilarnar i y-led
 
 listan = xlsread('Kundlista');
 [rows,columns] = size(listan);
+dist(i);
+Totaldis(i);
 
 for i = 1:rows
     %Beräknar avståndet från upphämtning till anlämning av varje kund
    dist(i) = abs(listan(i,2) - listan(i,4)) + abs(listan(i,3) - listan(i,5)); 
    %Beräkning av totala distansen taxin får åka enligt kundens sammarbetsvilja.
+
    Totaldis(i) = (1+listan(i,6)) * dist(i);
 end
 
@@ -25,7 +28,7 @@ end
 kundlista = sortrows(listan,7);
 A = zeros(1,rows); % Lägger till en nollvektor där nollan motsvarar kundens status.
 kundlista = [kundlista, A']; %Kundens status motsvarar, 
-%0 = ej aktuell, kunden har inte ringt.
+%0 = ej aktuell, unden har inte ringt.
 %k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
 %2 = Kunden har blivit betjänad. 
 
@@ -38,7 +41,6 @@ for i = 0:tid
     for j = 1:rows
     if (klockan == kundlista(j,7)) % Kund ringer in
         for k = 1:10
-
             if (Taxibilar(k,1) == 0)    % Tilldelar en taxi ett jobb
             Taxibilar(k,1) = Taxibilar(k,1) + 1;
             % Beräknar riktningen taxin ska färdas för att hämta upp en %kund.
