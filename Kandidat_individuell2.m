@@ -1,6 +1,6 @@
 %% Kandidat projekt , heuristik 1
 
-% Karta över fiktiv stad.
+% Karta över fiktiv stad. 
 xled = 60;
 yled = 60; 
 stad = zeros(xled,yled); 
