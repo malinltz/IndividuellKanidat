@@ -1,9 +1,9 @@
 %% Kandidat projekt , heuristik 1
 
 % Karta över fiktiv stad.
-%xled = 600;
-%yled = 600;
-%stad = zeros(xled,yled);
+xled = 600;
+yled = 600;
+stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
 Taxibilar = zeros(10,5);
@@ -17,7 +17,7 @@ for i = 1:rows
     %Beräknar avståndet från upphämtning till anlämning av varje kund
     dist(i) = abs(listan(i,2) - listan(i,4)) + abs(listan(i,3) - listan(i,5));
     %Beräkning av totala distansen taxin får åka enligt kundens sammarbetsvilja.
-   % Totaldis(i) = (1+listan(i,6)) * dist(i); % används endast i heuristk 2. 
+   Totaldis(i) = (1+listan(i,6)) * dist(i); % används endast i heuristk 2. 
 end
 
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
@@ -29,8 +29,7 @@ kundlista = [kundlista, A']; %Kundens status motsvarar,
 %k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
 %2 = Kunden har blivit betjänad.
 
-%bagtid = 12; % Tiden i sekunder att färdas 100m, mellan 2 noder (hastighet = 8.33m/s)
-%plats_taxi = 4; % Antalet platser i taxibilen.
+plats_taxi = 4; % Antalet platser i taxibilen.
 klockan = 0; % klockan går mellan 0 och 57600 sekunder (16 timmar).
 riktning_x = zeros(10,2); % Riktningen som taxin ska färdas i x-led.
 riktning_y = zeros(10,2); % Riktningen som taxin ska färdas i y-led.
