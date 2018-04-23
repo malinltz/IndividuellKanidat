@@ -1,5 +1,5 @@
 %% Kandidat projekt , heuristik 1
-clear
+clear all;
 % Karta över fiktiv stad.
 %xled = 600;
 %yled = 600;
@@ -39,12 +39,11 @@ for i = 0:tid
     for j = 1:rows
         if (klockan == kundlista(j,6)) % Kund ringer in
             kundlista(j,8) = 1; % Taxibil skickas till en kund.
-        end
-        
-        for k = 1:10
-            if (Taxibilar(k,1) == 0 && kundlista(j,8) == 1) % Tilldelar en taxi ett jobb om taxin är ledig
+            for k = 1:10
+            if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
                 Taxibilar(k,4) = Taxibilar(k,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
-                Taxibilar(k,1) = 2; % Sätter taxibilens status till 2.
+                disp(['Taxibil nr: ',num2str(k),' betjänar kund nr: ', num2str(j)])
+                Taxibilar(k,1) = 1; % Sätter taxibilens status till 2.
                 Taxibilar(k,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
                 % Beräknar riktningen taxin ska färdas för att hämta upp en kund.
                 riktning_x(k,1) = (kundlista(j,1) - Taxibilar(k,2));
@@ -58,11 +57,11 @@ for i = 0:tid
                 riktning_y(k,4) = riktning_y(k,3)/abs(riktning_y(k,3));
                 break % Avbryter loopen när en taxi tilldelas en kund.
             end
-            
+           end
         end
         %Beräknar hur taxibilarna färdas då de ska till en kund.
         for k = 1:10
-            if (Taxibilar(k,1) == 2 && kundlista(j,8) == 1)
+            if (Taxibilar(k,1) == 1 && kundlista(j,8) == 1)
                 if (Taxibilar(k,5) == 100) % Extra tid för att kunde ska ta sig in i taxin.
                     if(Taxibilar(k,2) ~= kundlista(j,1)) % kollar att taxin har "rätt" värde i x-led
                         Taxibilar(k,2) = Taxibilar(k,2) + (riktning_x(k,2));
@@ -71,7 +70,7 @@ for i = 0:tid
                         Taxibilar(k,3) = Taxibilar(k,3) + (riktning_y(k,2));
                     end
                     if(Taxibilar(k,2) == kundlista(j,1) && Taxibilar(k,3) == kundlista(j,2))
-                        Taxibilar(k,1) = 3; %Kunden har plockats upp
+                        Taxibilar(k,1) = 2; %Kunden har plockats upp
                         Taxibilar(k,5) = 0;
                         kundlista(j,8) = 2;
                         kundlista(j,9) = klockan; %Sparar tiden då kunden blir upplockad
@@ -82,7 +81,7 @@ for i = 0:tid
                 end
             end
             
-            if (Taxibilar(k,1) == 3 && kundlista(j,8) == 2)  %Om kunden har plockats upp
+            if (Taxibilar(k,1) == 2 && kundlista(j,8) == 2)  %Om kunden har plockats upp
                 if (Taxibilar(k,5) == 100) % Extra tid för att kunde ska ta sig in i taxin.
                     if(Taxibilar(k,2) ~= kundlista(j,3)) % kollar att taxin har "rätt" värde i x-led
                          Taxibilar(k,2) = Taxibilar(k,2) + (riktning_x(k,4));
