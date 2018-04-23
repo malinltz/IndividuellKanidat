@@ -17,7 +17,7 @@ for i = 1:rows
     %Beräknar avståndet från upphämtning till anlämning av varje kund
     dist(i) = abs(listan(i,2) - listan(i,4)) + abs(listan(i,3) - listan(i,5));
     %Beräkning av totala distansen taxin får åka enligt kundens sammarbetsvilja.
-    Totaldis(i) = (1+listan(i,6)) * dist(i);
+   % Totaldis(i) = (1+listan(i,6)) * dist(i); % används endast i heuristk 2. 
 end
 
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
