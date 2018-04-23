@@ -32,8 +32,8 @@ kundlista = [kundlista, A']; %Kundens status motsvarar,
 %bagtid = 12; % Tiden i sekunder att färdas 100m, mellan 2 noder (hastighet = 8.33m/s)
 %plats_taxi = 4; % Antalet platser i taxibilen.
 klockan = 0; % klockan går mellan 0 och 57600 sekunder (16 timmar).
-riktning_x = zeros(10,2); % Riktningen som taxin ska färdas i x-led.
-riktning_y = zeros(10,2); % Riktningen som taxin ska färdas i y-led.
+riktning_x = zeros(10,4); % Riktningen som taxin ska färdas i x-led.
+riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 
 for i = 0:tid
     for j = 1:rows
@@ -74,6 +74,7 @@ for i = 0:tid
                         Taxibilar(k,1) = 2; %Kunden har plockats upp
                         Taxibilar(k,5) = 0;
                         kundlista(j,8) = 3;
+                        kundlista(j,9) = klockan; %Sparar 
                         disp(['Taxibil nr: ',num2str(k),' har hämtat upp kund nr: ',num2str(j)])
                     end
                 else
@@ -84,24 +85,18 @@ for i = 0:tid
             if (Taxibilar(k,1) == 2 && kundlista(j,8) == 3)  %Om kunden har plockats upp
                 if (Taxibilar(k,5) == 100) % Extra tid för att kunde ska ta sig in i taxin.
                     if(Taxibilar(k,2) ~= kundlista(j,3)) % kollar att taxin har "rätt" värde i x-led
-%                         Taxibilar(k,2) = Taxibilar(k,2) + (riktning_x(k,4));
-%                         disp('Söker avlämning i x-led för taxi nr: ')
-%                         disp(k)
-%                         disp('för kund nr: ')
-%                         disp(j)
+                         Taxibilar(k,2) = Taxibilar(k,2) + (riktning_x(k,4));
+
                     end
                     if(Taxibilar(k,2) == kundlista(j,3) && Taxibilar(k,3) ~= kundlista(j,4))
-%                         Taxibilar(k,3) = Taxibilar(k,3) + (riktning_y(k,4));
-%                         disp('Söker avlämning i y-led för taxi nr: ')
-%                         disp(k)
-%                         disp('för kund nr: ')
-%                         disp(j)
+                         Taxibilar(k,3) = Taxibilar(k,3) + (riktning_y(k,4));
+
                     end
                     if(Taxibilar(k,2) == kundlista(j,3) && Taxibilar(k,3) == kundlista(j,4)) % kollar att bilen är framme vid kundens slutdestionation
                         Taxibilar(k,1) = 0; %Kunden har lämnats av
                         Taxibilar(k,5) = 0;
 
-                        
+                        disp(['Taxibil nr: ',num2str(k),' har lämnat upp kund nr: ',num2str(j)])
                     end
                 else
                     Taxibilar(k,5) = Taxibilar(k,5) + 1; % Räknar tiden för kunden att ta sig
