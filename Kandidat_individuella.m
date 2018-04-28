@@ -36,6 +36,10 @@ riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 
 %Lägg till en till for-loop för att köra heuristiken flera gånger.
 for i = 0:tid
+    x = i/1800;
+    if(floor(x) == x && x ~=0)
+        pause
+    end
     for j = 1:rows
         if (kundlista(j,8) == -1)
              for k = 1:10
