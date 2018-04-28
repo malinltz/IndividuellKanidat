@@ -77,7 +77,7 @@ for i = 0:tid
                     s = s+1;
                 else
                     kundlista(j,8) = -1;
-                end
+                    ends
                 
             end
             A = min(stracka(:,1));
