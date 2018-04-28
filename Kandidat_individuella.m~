@@ -138,15 +138,6 @@ for i = 0:tid
 
     end
     klockan = klockan +1; 
-
+%plot(xled,yled, 'g');
 %plot(yled);
-%plot(x,y);
-%plot(Taxibilar(k,1));
-%plot(Taxibilar(k,2));
-%plot(Taxibilar(k,3));
-
-%grid
-
 end
-plot(x,y);
-grid minor
