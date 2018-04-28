@@ -1,5 +1,5 @@
-%% Kandidat projekt , heuristik 1
-clear all;
+%% Kandidat projekt , heuristik 2
+clear;
 % Karta över fiktiv stad.
 % xled = 600;
 % yled = 600;

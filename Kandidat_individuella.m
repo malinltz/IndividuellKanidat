@@ -1,24 +1,25 @@
 %% Kandidat projekt , heuristik 1
-clear all;
+clear ;
 % Karta över fiktiv stad.
-% xled = 600;
-% yled = 600;
-% stad = zeros(xled,yled);
+xled = 600;
+yled = 600;
+stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
 Taxibilar = zeros(10,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
+x=0:600;
+y=0:600;
 
 listan = xlsread('Kundlista');
 [rows,columns] = size(listan);
-% for i = 1:rows
+%for i = 1:rows
 %     %Beräknar avståndet från upphämtning till anlämning av varje kund
 %     dist(i) = abs(listan(i,2) - listan(i,4)) + abs(listan(i,3) - listan(i,5));
 %     %Beräkning av totala distansen taxin får åka enligt kundens sammarbetsvilja.
 %     Totaldis(i) = (1+listan(i,6)) * dist(i); % används endast i heuristk 2.
 % end
-
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
 % kommer överst
 
@@ -28,7 +29,6 @@ kundlista = [kundlista, A',A',A',A',A']; %Kundens status motsvarar,
 %0 = ej aktuell, kunden har inte ringt.
 %k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
 %2 = Kunden har blivit betjänad.
-
 %plats_taxi = 4; % Antalet platser i taxibilen.
 klockan = 0; % klockan går mellan 0 och 57600 sekunder (16 timmar).
 riktning_x = zeros(10,4); % Riktningen som taxin ska färdas i x-led.
@@ -38,6 +38,29 @@ riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 for i = 0:tid
     x = i/1800;
     if(floor(x) == x && x ~=0)
+    x1 = (Taxibilar(k,2));
+    x2 = (Taxibilar(k,3));
+    y1 = (kundlista(j,1));
+    y2 = (kundlista(j,2));
+    y3 = (kundlista(j,3));
+    y4 = (kundlista(j,4));
+
+plot(x1,x2,'o');
+hold on 
+plot(y1,y2, '+')
+hold on
+plot(y3,y4,'*');
+hold on    
+plot(x,y);
+
+xlabel();
+ylabel();
+
+%hold on
+%plotmatrix(x1,'g');
+
+grid minor
+grid on 
         pause
     end
     for j = 1:rows
@@ -66,7 +89,9 @@ for i = 0:tid
                 end
              end
         end
+        
         if (klockan == kundlista(j,6)) % Kund ringer in
+
             for k = 1:10
                 if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
                     Taxibilar(k,4) = Taxibilar(k,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
@@ -136,6 +161,9 @@ for i = 0:tid
                 end
             end
         end
+
     end
-    klockan = klockan +1;
+    klockan = klockan +1; 
+
 end
+
