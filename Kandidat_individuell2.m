@@ -40,14 +40,15 @@ for i = 0:tid
         if (kundlista(j,8) == -1)
              for k = 1:10
                 if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
+                    riktning_x(k,1) = (kundlista(j,1) - Taxibilar(k,2));
+                    riktning_y(k,1) = (kundlista(j,2) - Taxibilar(k,3));
+                    
                     Taxibilar(k,4) = Taxibilar(k,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                     disp(['Taxibil nr: ',num2str(k),' betjänar kund nr: ', num2str(j)])
                     Taxibilar(k,1) = 1; % Sätter taxibilens status till 2.
                     Taxibilar(k,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
                     % Beräknar riktningen taxin ska färdas för att hämta upp en kund.
-                    riktning_x(k,1) = (kundlista(j,1) - Taxibilar(k,2));
                     riktning_x(k,2) = riktning_x(k,1)/abs(riktning_x(k,1));
-                    riktning_y(k,1) = (kundlista(j,2) - Taxibilar(k,3));
                     riktning_y(k,2) = riktning_y(k,1)/abs(riktning_y(k,1));
                     % Beräknar riktningen taxin ska färdas för att lämna av en kund.
                     riktning_x(k,3) = (kundlista(j,3) - kundlista(j,1));

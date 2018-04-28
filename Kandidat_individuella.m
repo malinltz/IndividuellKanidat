@@ -12,7 +12,6 @@ Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
 x=0:600;
 y=0:600;
 
-
 listan = xlsread('Kundlista');
 [rows,columns] = size(listan);
 %for i = 1:rows
@@ -21,7 +20,6 @@ listan = xlsread('Kundlista');
 %     %Beräkning av totala distansen taxin får åka enligt kundens sammarbetsvilja.
 %     Totaldis(i) = (1+listan(i,6)) * dist(i); % används endast i heuristk 2.
 % end
-
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
 % kommer överst
 
@@ -31,7 +29,6 @@ kundlista = [kundlista, A',A',A',A',A']; %Kundens status motsvarar,
 %0 = ej aktuell, kunden har inte ringt.
 %k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
 %2 = Kunden har blivit betjänad.
-
 %plats_taxi = 4; % Antalet platser i taxibilen.
 klockan = 0; % klockan går mellan 0 och 57600 sekunder (16 timmar).
 riktning_x = zeros(10,4); % Riktningen som taxin ska färdas i x-led.
@@ -39,6 +36,33 @@ riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 
 %Lägg till en till for-loop för att köra heuristiken flera gånger.
 for i = 0:tid
+    x = i/1800;
+    if(floor(x) == x && x ~=0)
+    x1 = (Taxibilar(k,2));
+    x2 = (Taxibilar(k,3));
+    y1 = (kundlista(j,1));
+    y2 = (kundlista(j,2));
+    y3 = (kundlista(j,3));
+    y4 = (kundlista(j,4));
+
+plot(x1,x2,'o');
+hold on 
+plot(y1,y2, '+')
+hold on
+plot(y3,y4,'*');
+hold on    
+plot(x,y);
+
+xlabel();
+ylabel();
+
+%hold on
+%plotmatrix(x1,'g');
+
+grid minor
+grid on 
+        pause
+    end
     for j = 1:rows
         if (kundlista(j,8) == -1)
              for k = 1:10
@@ -141,22 +165,5 @@ for i = 0:tid
     end
     klockan = klockan +1; 
 
-%plot(yled);
-%plot(x,y);
-%plot(Taxibilar(k,1));
-%plot(Taxibilar(k,2));
-%plot(Taxibilar(k,3));
-
-%grid
-%plot (Taxibilar(k,1));
 end
-plot (Taxibilar(k,1),'g');
-plot (kundlista(j,8), 'r');
 
-x1 = linspace(0,3*pi,200);
-y1 = cos(x1) + rand(1,200);  
-scatter(x1,y1)
-
-plot(x,y);
-grid minor
-grid on 
