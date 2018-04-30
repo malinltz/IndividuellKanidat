@@ -4,7 +4,7 @@ clear;
 % xled = 600;
 % yled = 600;
 % stad = zeros(xled,yled);
-tid = 57600; % Antal sekunder på 16 timmar
+tid = 40; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
 Taxibilar = zeros(10,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
@@ -79,10 +79,9 @@ for i = 0:tid
                     s = s+1;
                 else
                     kundlista(j,8) = -1;
-                    ends
-                
+                end
             end
-            A = min(stracka(:,1));
+            A = min(stracka(:,1))
             ridx = find(stracka(:,1) == A)
             z = ridx(1)
             
