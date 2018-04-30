@@ -38,8 +38,48 @@ riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 for i = 0:tid
     x = i/1800;
     if(floor(x) == x && x ~=0)
-    x1 = (Taxibilar(k,2));
-    x2 = (Taxibilar(k,3));
+  radien= 5;
+ vinkel= 0:pi/50:2*pi;
+    x1 = radien.*cos(vinkel)+(Taxibilar(1,2));
+    x1 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi1=plot(x1,x1,'b');
+    
+    x2 = radien.*cos(vinkel)+(Taxibilar(2,2));
+    x2 = radien.*sin(vinkel)+(Taxibilar(2,3));
+    postaxi2= plot(x2,x2,'b');
+    
+    x3= radien.*cos(vinkel)+(Taxibilar(3,2));
+    x3 = radien.*sin(vinkel)+(Taxibilar(3,3));
+    postaxi3= plot(x3,x3,'b');
+    
+    x4= radien.*cos(vinkel)+(Taxibilar(4,2));
+    x4 = radien.*sin(vinkel)+(Taxibilar(4,3));
+    postaxi4= plot(x4,x4,'b');
+    
+    x5= radien.*cos(vinkel)+(Taxibilar(5,2));
+    x5 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi5=plot(x5,x5,'b');
+    
+    x6= radien.*cos(vinkel)+(Taxibilar(6,2));
+    x6 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi6= plot(x6,x6,'b');
+    
+    x7= radien.*cos(vinkel)+(Taxibilar(7,3));
+    x7 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi7=  plot(x7,x7,'b');
+    
+    x8= radien.*cos(vinkel)+(Taxibilar(8,3));
+    x8 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi8= plot(x8,x8,'b');
+    
+    x9= radien.*cos(vinkel)+(Taxibilar(9,3));
+    x9 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi9=  plot(x9,x9,'b');
+    
+    x10= radien.*cos(vinkel)+(Taxibilar(10,3));
+    x10 = radien.*sin(vinkel)+(Taxibilar(1,3));
+    postaxi10= plot(x1,x1,'b');
+    
     y1 = (kundlista(j,1));
     y2 = (kundlista(j,2));
     y3 = (kundlista(j,3));
@@ -53,14 +93,14 @@ plot(y3,y4,'*');
 hold on    
 plot(x,y);
 
-xlabel();
-ylabel();
+%xlabel();
+%ylabel();
 
 %hold on
 %plotmatrix(x1,'g');
 
 grid minor
-grid on 
+grid on
         pause
     end
     for j = 1:rows
