@@ -162,7 +162,7 @@ for i = 0:tid
                             Taxibilar(k,5) = 0;
                             kundlista(j,8) = 3;
                             kundlista(j,11) = klockan; %Sparar tiden då kunden blir avlämnad
-                            %      disp(['Taxibil nr: ',num2str(k),' har lämnat upp kund nr: ',num2str(j)])
+                            %  disp(['Taxibil nr: ',num2str(k),' har lämnat upp kund nr: ',num2str(j)])
                         end
                     else
                         Taxibilar(k,5) = Taxibilar(k,5) + 1; % Räknar tiden för kunden att ta sig
