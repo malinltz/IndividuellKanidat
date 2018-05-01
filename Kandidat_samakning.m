@@ -11,6 +11,7 @@ Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
 listan = xlsread('Kundlista');
 [rows,columns] = size(listan);
+    
 
 % for i = 1:rows
 %     %Beräknar avståndet från upphämtning till anlämning av varje kund
