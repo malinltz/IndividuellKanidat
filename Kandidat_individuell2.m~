@@ -26,11 +26,8 @@ listan = xlsread('Kundlista');
 kundlista = sortrows(listan,6);
 A = zeros(1,rows); % Lägger till en nollvektor där nollan motsvarar kundens status.
 kundlista = [kundlista, A',A',A',A']; %Kundens status motsvarar,
-for i = 1:rows-1
-    j = i +1;
-    if (kundlista(i,6) == kundlista(j,6))
-        kundlista(j,6) = kundlista(j,6) +1;
-    end
+for i = 1:tid
+    if kundlista(i,
 end
 %0 = ej aktuell, kunden har inte ringt.
 %k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
@@ -42,7 +39,7 @@ riktning_x = zeros(10,4); % Riktningen som taxin ska färdas i x-led.
 riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 antal_paus = 1;
 %Lägg till en till for-loop för att köra heuristiken flera gånger.
-for i = 1:tid
+for i = 0:tid
     
     %     x = i/1800;
     %     if(floor(x) == x && x ~=0)
@@ -65,12 +62,15 @@ for i = 1:tid
                     break;
                 end
             end
+            
             if (Taxibilar(k,1) == 0 && kundlista(j,12) == k)
                 strackaB2 = strackaB(:,1);
-                [m,pos] = min(strackaB2(strackaB2 > 0));
+                [m,pos] = min(strackaB2(stracka2 > 0));
                 z = strackaB(pos,2);
-               
+                Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                 % disp(['Taxibil nr: ',num2str(k),' betjänar kund nr: ', num2str(j)])
+                Taxibilar(z,1) = 1; % Sätter taxibilens status till 2.
+                Taxibilar(z,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
                 % Beräknar riktningen taxin ska färdas för att hämta upp en kund.
                 riktning_x(z,2) = riktning_x(z,1)/abs(riktning_x(z,1));
                 riktning_y(z,2) = riktning_y(z,1)/abs(riktning_y(z,1));
@@ -79,9 +79,6 @@ for i = 1:tid
                 riktning_x(z,4) = riktning_x(z,3)/abs(riktning_x(z,3));
                 riktning_y(z,3) = (kundlista(j,4) - kundlista(j,2));
                 riktning_y(z,4) = riktning_y(z,3)/abs(riktning_y(z,3));
-                Taxibilar(z,1) = 1; % Sätter taxibilens status till 1.
-                Taxibilar(z,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
-                Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                 kundlista(j,8) = 1;% Taxibil skickas till en kund
                 kundlista(j,12) = z;
             else
