@@ -105,29 +105,24 @@ grid on
     end
     for j = 1:rows
         if (kundlista(j,8) == -1)
-            b = 1;
-            ledig_taxi = [];
              for k = 1:10
-                if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
-                    ledig_taxi(b,1) = k;
-                    b = b +1;
-                    y = randsample(ledig_taxi,1);
-                    Taxibilar(y,4) = Taxibilar(y,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
-                    disp(['Taxibil nr: ',num2str(y),' betjänar kund nr: ', num2str(j)])
-                    Taxibilar(y,1) = 1; % Sätter taxibilens status till 2.
-                    Taxibilar(y,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
+                if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig;
+                    Taxibilar(k,4) = Taxibilar(k,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
+                    disp(['Taxibil nr: ',num2str(k),' betjänar kund nr: ', num2str(j)])
+                    Taxibilar(k,1) = 1; % Sätter taxibilens status till 2.
+                    Taxibilar(k,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
                     % Beräknar riktningen taxin ska färdas för att hämta upp en kund.
-                    riktning_x(y,1) = (kundlista(j,1) - Taxibilar(y,2));
-                    riktning_x(y,2) = riktning_x(y,1)/abs(riktning_x(y,1));
-                    riktning_y(y,1) = (kundlista(j,2) - Taxibilar(y,3));
-                    riktning_y(y,2) = riktning_y(y,1)/abs(riktning_y(y,1));
+                    riktning_x(k,1) = (kundlista(j,1) - Taxibilar(k,2));
+                    riktning_x(k,2) = riktning_x(k,1)/abs(riktning_x(k,1));
+                    riktning_y(k,1) = (kundlista(j,2) - Taxibilar(k,3));
+                    riktning_y(k,2) = riktning_y(k,1)/abs(riktning_y(k,1));
                     % Beräknar riktningen taxin ska färdas för att lämna av en kund.
-                    riktning_x(y,3) = (kundlista(j,3) - kundlista(j,1));
-                    riktning_x(y,4) = riktning_x(y,3)/abs(riktning_x(y,3));
-                    riktning_y(y,3) = (kundlista(j,4) - kundlista(j,2));
-                    riktning_y(y,4) = riktning_y(y,3)/abs(riktning_y(y,3));
+                    riktning_x(k,3) = (kundlista(j,3) - kundlista(j,1));
+                    riktning_x(k,4) = riktning_x(k,3)/abs(riktning_x(k,3));
+                    riktning_y(k,3) = (kundlista(j,4) - kundlista(j,2));
+                    riktning_y(k,4) = riktning_y(k,3)/abs(riktning_y(k,3));
                     kundlista(j,8) = 1;% Taxibil skickas till en kund
-                    kundlista(j,12) = y;
+                    kundlista(j,12) = k;
                     break % Avbryter loopen när en taxi tilldelas en kund.
                 else 
                     kundlista(j,9) = kundlista(j,9) + 1;
