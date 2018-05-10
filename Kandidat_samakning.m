@@ -6,12 +6,12 @@ clear;
 % stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
-Taxibilar = zeros(10,5);
+Antal_bilar = 10;
+Taxibilar = zeros(Antal_bilar,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista');
+listan = xlsread('Kundlista500');
 [rows,columns] = size(listan);
-    
 
 % for i = 1:rows
 %     %Beräknar avståndet från upphämtning till anlämning av varje kund
@@ -53,18 +53,17 @@ for i = 1:tid
         if (kundlista(j,8) == -1)
             s = 1;
             strackaB = [];
-            for k = 1:10
+            for k = 1:Antal_bilar
                 if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
                     riktning_x(k,1) = (kundlista(j,1) - Taxibilar(k,2));
                     riktning_y(k,1) = (kundlista(j,2) - Taxibilar(k,3));
                     strackaB(s,1) = abs(riktning_x(k,1)) + abs(riktning_y(k,1));
                     strackaB(s,2) = k;
                     s = s+1;
-                    kundlista(j,12) = k;
                     break;
                 end
             end
-            if (Taxibilar(k,1) == 0 && kundlista(j,12) == k)
+            if (Taxibilar(k,1) == 0)
                 strackaB2 = strackaB(:,1);
                 [m,pos] = min(strackaB2(strackaB2 > 0));
                 z = strackaB(pos,2);
@@ -91,7 +90,7 @@ for i = 1:tid
             if (klockan == kundlista(j,6)) % Kund ringer in
                 s = 1;
                 stracka = [];
-                for k = 1:10
+                for k = 1:Antal_bilar
                     if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
                         riktning_x(k,1) = (kundlista(j,1) - Taxibilar(k,2));
                         riktning_y(k,1) = (kundlista(j,2) - Taxibilar(k,3));
@@ -130,7 +129,7 @@ for i = 1:tid
             
             %Beräknar hur taxibilarna färdas då de ska till en kund.
             
-            for k = 1:10
+            for k = 1:Antal_bilar
                 if (Taxibilar(k,1) == 1 && kundlista(j,8) == 1 && kundlista(j,12) == k)
                     if (Taxibilar(k,5) == 100) % Extra tid för att kunde ska ta sig in i taxin.
                         if(Taxibilar(k,2) ~= kundlista(j,1)) % kollar att taxin har "rätt" värde i x-led
@@ -172,6 +171,9 @@ for i = 1:tid
                     end
                 end
             end
-        end
+       end
         klockan = klockan +1;
-    end
+end
+    
+Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
+Total_vantetid = sum(kundlista(:,9));
