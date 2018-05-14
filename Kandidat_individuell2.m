@@ -175,6 +175,6 @@ for i = 1:tid
         end
         klockan = klockan +1;
 end
-    
 Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
 Total_vantetid = sum(kundlista(:,9));
+Total_vantetid_snitt_minuter = Total_vantetid /(rows *60);

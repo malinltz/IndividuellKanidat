@@ -10,9 +10,9 @@ Antal_bilar = 10;
 Taxibilar = zeros(Antal_bilar,6);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista');
+listan = xlsread('Kundlista250');
 [rows,columns] = size(listan);
-
+samAkning_antal = 0;
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
 % kommer överst
 
@@ -43,6 +43,7 @@ for i = 1:tid
     %         disp(['Antal pauser: ',num2str(antal_paus)]);
     %         antal_paus = antal_paus +1;
     %     end
+    
     for j = 1:rows
         if (kundlista(j,8) == -1)
             s = 1;
@@ -76,7 +77,39 @@ for i = 1:tid
                 Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                 kundlista(j,8) = 1;% Taxibil skickas till en kund
                 kundlista(j,12) = z;
-                
+                %***************** skipis ev ******************
+                                %Beräknar extra tiden en kund är vilig att åka extra för samåkning.
+                kundlista(j,14) = i;
+                kundlista(j,15) = kundlista(j,14) + abs(riktning_x(z,1)) + abs(riktning_y(z,1));
+                %Kollar ifall samåkning ska inträffa
+                plats_kvar = plats_taxi;
+                for sam = j+1:rows
+                    if(kundlista(j,17) == 0 && kundlista(sam,17) == 0 && kundlista(sam,12) == 0)
+                        if(kundlista(j,15) >= kundlista(sam,6))  % kollar ifall någon ringer in under tiden som en taxi är påväg till "första kunden"
+                            h = 1;
+                            if(kundlista(j,7)+kundlista(sam,7) <= plats_kvar) %kollar så att det finns tillräckligt med plats i taxin
+                                h = h+1;         %  Kundens startpos   Första kundens start
+                                mojliga = [];
+                                mojliga(h,1) = abs(kundlista(sam,1) - kundlista(j,1)) + abs(kundlista(sam,2) - kundlista(j,2)) + abs((kundlista(j,3) - kundlista(sam,1))) + abs((kundlista(j,4) - kundlista(sam,2)));
+                                mojliga(h,2) = kundlista(sam,16);
+                                for n = 1:h
+                                    if(kundlista(j,13)>= mojliga(n,1) && kundlista(sam,8) == 0)
+                                        % Samåking ska inträffa
+                                        plats_kvar = plats_kvar - kundlista(sam,7);
+                                        Taxibilar(z,6) = 1;
+                                        kundlista(j,8) = 4;
+                                        kundlista(sam,8) = 14;
+                                        disp(['Taxibil nr: ', num2str(z) , ' samåker med kund nr: ', num2str(j), ' och kund nr: ', num2str(sam)]);
+                                        kundlista(sam,12) = z;
+                                        kundlista(sam,17) = j;
+                                        kundlista(j,17) = sam;
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+%*************************************************************************
             else
                 kundlista(j,9) = kundlista(j,9) + 1;
             end
@@ -105,7 +138,6 @@ for i = 1:tid
                 [m,pos] = min(stracka2(stracka2 > 0));
                 z = stracka(pos,2);
                 
-                Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                 % disp(['Taxibil nr: ',num2str(k),' betjänar kund nr: ', num2str(j)])
                 Taxibilar(z,1) = 1; % Sätter taxibilens status till 1.
                 Taxibilar(z,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
@@ -176,7 +208,7 @@ for i = 1:tid
                 end
             end
             for sam = j+1:rows
-                if(Taxibilar(k,6) == 2)
+                if(Taxibilar(k,6) == 2 && kundlista(j,16) == kundlista(sam,17))
                     if(kundlista(sam,8) == 14 && kundlista(sam,12) == k && kundlista(sam,17) == j && kundlista(j,12) == k)
                         % Riktningen för samåkningskunden:
                         
@@ -191,8 +223,8 @@ for i = 1:tid
                         riktning_x(k,6) = riktning_x(k,5)/abs(riktning_x(k,5));
                         riktning_y(k,6) = riktning_y(k,5)/abs(riktning_y(k,5));
                         %Status 5.
-                        riktning_x(k,7) = (kundlista(sam,3) - kundlista(k,3));
-                        riktning_y(k,7) = (kundlista(sam,4) - kundlista(k,4));
+                        riktning_x(k,7) = (kundlista(sam,3) - kundlista(j,3));
+                        riktning_y(k,7) = (kundlista(sam,4) - kundlista(j,4));
                         riktning_x(k,8) = riktning_x(k,7)/abs(riktning_x(k,7));
                         riktning_y(k,8) = riktning_y(k,7)/abs(riktning_y(k,7));
                         
@@ -201,7 +233,7 @@ for i = 1:tid
                 end
                 % ÅKER FÖR ATT HÄMTA UPP KUND NR 2.
                 if(Taxibilar(k,6) == 3)
-                    if (kundlista(sam,17) == k && kundlista(j,12) == k && kundlista(j,8) == 5 && kundlista(sam,8) == 14)
+                    if (kundlista(sam,12) == k && kundlista(j,12) == k && kundlista(j,8) == 5 && kundlista(sam,8) == 14)
                         if(Taxibilar(k,5) == 100)
                             if(Taxibilar(k,2) ~= kundlista(sam,1) && kundlista(j,12) == k) % kollar att taxin har "rätt" värde i x-led
                                 Taxibilar(k,2) = Taxibilar(k,2) + (riktning_x(k,4));
@@ -273,6 +305,8 @@ for i = 1:tid
                     Taxibilar(k,6) = 0;
                     kundlista(j,8) = 3;
                     kundlista(j,11) = klockan;
+                    samAkning_antal = samAkning_antal + 1;
+                    Taxibilar(k,4) = Taxibilar(k,4) + 2;
                  %   kundlista(j,17) = 0;
                  %   kundlista(sam,17) = 0;
                 end
@@ -317,6 +351,7 @@ for i = 1:tid
                             Taxibilar(k,5) = 0;
                             kundlista(j,8) = 3;
                             kundlista(j,11) = klockan; %Sparar tiden då kunden blir avlämnad
+                            Taxibilar(k,4) = Taxibilar(k,4) + 1;
                             %  disp(['Taxibil nr: ',num2str(k),' har lämnat upp kund nr: ',num2str(j)])
                         end
                     else
@@ -329,7 +364,7 @@ for i = 1:tid
     end
     klockan = klockan +1;
 end
-
+disp(['Antalet samåkning som heuristiken genomförde var: ', num2str(samAkning_antal) ,' COOLT MURLIN LITENcreutz']);
 Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
 Total_vantetid = sum(kundlista(:,9));
 Total_vantetid_snitt_minuter = Total_vantetid /(rows *60);

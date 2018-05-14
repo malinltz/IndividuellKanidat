@@ -12,7 +12,7 @@ Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
 x=0:600;
 y=0:600;
-listan = xlsread('Kundlista100');
+listan = xlsread('Kundlista500');
 [rows,columns] = size(listan);
 %for i = 1:rows
 %     %Beräknar avståndet från upphämtning till anlämning av varje kund
@@ -208,3 +208,4 @@ riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 end
 Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
 Total_vantetid = sum(kundlista(:,9));
+Total_vantetid_snitt_minuter = Total_vantetid /(rows *60);
