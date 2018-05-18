@@ -10,7 +10,7 @@ Antal_bilar = 10;
 Taxibilar = zeros(Antal_bilar,6);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista250');
+listan = xlsread('Kundlista500');
 [rows,columns] = size(listan);
 samAkning_antal = 0;
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
@@ -74,11 +74,9 @@ for i = 1:tid
                 riktning_y(z,4) = riktning_y(z,3)/abs(riktning_y(z,3));
                 Taxibilar(z,1) = 1; % Sätter taxibilens status till 1.
                 Taxibilar(z,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
-                Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                 kundlista(j,8) = 1;% Taxibil skickas till en kund
                 kundlista(j,12) = z;
-                %***************** skipis ev ******************
-                                %Beräknar extra tiden en kund är vilig att åka extra för samåkning.
+              % Beräknar extra tiden en kund är vilig att åka extra för samåkning.
                 kundlista(j,14) = i;
                 kundlista(j,15) = kundlista(j,14) + abs(riktning_x(z,1)) + abs(riktning_y(z,1));
                 %Kollar ifall samåkning ska inträffa
@@ -109,7 +107,6 @@ for i = 1:tid
                         end
                     end
                 end
-%*************************************************************************
             else
                 kundlista(j,9) = kundlista(j,9) + 1;
             end
@@ -364,7 +361,7 @@ for i = 1:tid
     end
     klockan = klockan +1;
 end
-disp(['Antalet samåkning som heuristiken genomförde var: ', num2str(samAkning_antal) ,' COOLT MURLIN LITENcreutz']);
+disp(['Antalet samåkning som heuristiken genomförde var: ', num2str(samAkning_antal)]);
 Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
 Total_vantetid = sum(kundlista(:,9));
 Total_vantetid_snitt_minuter = Total_vantetid /(rows *60);

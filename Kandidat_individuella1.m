@@ -6,7 +6,7 @@ yled = 600;
 stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
-Antal_bilar = 5;
+Antal_bilar = 1;
 Taxibilar = zeros(Antal_bilar,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led

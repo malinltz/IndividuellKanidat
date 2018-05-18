@@ -6,11 +6,11 @@ clear;
 % stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
-Antal_bilar = 5;
+Antal_bilar = 1;
 Taxibilar = zeros(Antal_bilar,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista500');
+listan = xlsread('Kundlista100');
 [rows,columns] = size(listan);
 
 % for i = 1:rows
@@ -80,7 +80,6 @@ for i = 1:tid
                 riktning_y(z,4) = riktning_y(z,3)/abs(riktning_y(z,3));
                 Taxibilar(z,1) = 1; % Sätter taxibilens status till 1.
                 Taxibilar(z,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
-                Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                 kundlista(j,8) = 1;% Taxibil skickas till en kund
                 kundlista(j,12) = z;
             else
@@ -108,7 +107,7 @@ for i = 1:tid
                     [m,pos] = min(stracka2(stracka2 > 0));
                     z = stracka(pos,2);
                     
-                    Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
+                    % Counter, för hur många körningar varje taxibil tar på sig.
                     % disp(['Taxibil nr: ',num2str(k),' betjänar kund nr: ', num2str(j)])
                     Taxibilar(z,1) = 1; % Sätter taxibilens status till 2.
                     Taxibilar(z,5) = 0; % Återställer tiden för kunden att ta sig in/ut ur bilen.
@@ -164,6 +163,7 @@ for i = 1:tid
                             Taxibilar(k,1) = 0; %Kunden har lämnats av
                             Taxibilar(k,5) = 0;
                             kundlista(j,8) = 3;
+                            Taxibilar(z,4) = Taxibilar(z,4) + 1; % Counter, för hur många körningar varje taxibil tar på sig.
                             kundlista(j,11) = klockan; %Sparar tiden då kunden blir avlämnad
                             %  disp(['Taxibil nr: ',num2str(k),' har lämnat upp kund nr: ',num2str(j)])
                         end
