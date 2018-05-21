@@ -1,27 +1,17 @@
 %% Kandidat projekt , heuristik 2
 clear;
 % Karta över fiktiv stad.
-% xled = 600;
-% yled = 600;
-% stad = zeros(xled,yled);
+ xled = 600;
+yled = 600;
+stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
-Antal_bilar = 1;
+Antal_bilar = 9;
 Taxibilar = zeros(Antal_bilar,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista100');
+listan = xlsread('Kundlista500_2');
 [rows,columns] = size(listan);
-
-% for i = 1:rows
-%     %Beräknar avståndet från upphämtning till anlämning av varje kund
-%     dist(i) = abs(listan(i,2) - listan(i,4)) + abs(listan(i,3) - listan(i,5));
-%     %Beräkning av totala distansen taxin får åka enligt kundens sammarbetsvilja.
-%     Totaldis(i) = (1+listan(i,6)) * dist(i); % används endast i heuristk 2.
-% end
-
-% Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
-% kommer överst
 
 kundlista = sortrows(listan,6);
 A = zeros(1,rows); % Lägger till en nollvektor där nollan motsvarar kundens status.
@@ -32,15 +22,13 @@ for i = 1:rows-1
         kundlista(j,6) = kundlista(j,6) +1;
     end
 end
-%0 = ej aktuell, kunden har inte ringt.
-%k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
-%2 = Kunden har blivit betjänad.
 
 %plats_taxi = 4; % Antalet platser i taxibilen.
 klockan = 0; % klockan går mellan 0 och 57600 sekunder (16 timmar).
 riktning_x = zeros(10,4); % Riktningen som taxin ska färdas i x-led.
 riktning_y = zeros(10,4); % Riktningen som taxin ska färdas i y-led.
 antal_paus = 1;
+
 %Lägg till en till for-loop för att köra heuristiken flera gånger.
 for i = 1:tid
     %     x = i/1800;

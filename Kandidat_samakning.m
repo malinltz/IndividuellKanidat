@@ -1,16 +1,16 @@
-%% Kandidat projekt , heuristik 2
+%% Kandidat projekt , heuristik 3
 clear;
 % Karta över fiktiv stad.
-% xled = 600;
-% yled = 600;
-% stad = zeros(xled,yled);
+xled = 600;
+yled = 600;
+stad = zeros(xled,yled);
 tid = 57600; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
 Antal_bilar = 10;
 Taxibilar = zeros(Antal_bilar,6);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista500');
+listan = xlsread('Kundlista500_2');
 [rows,columns] = size(listan);
 samAkning_antal = 0;
 % Sorterar kundlistan efter tiden som kunderna ringer in. Ringer in först =
@@ -26,9 +26,7 @@ for i = 1:rows-1
         kundlista(j,6) = kundlista(j,6) +1;
     end
 end
-%0 = ej aktuell, kunden har inte ringt.
-%k 1 = kunden har ringt och taxi är påväg/taxi kör kunden till kundens slutdestination.
-%2 = Kunden har blivit betjänad.
+
 
 plats_taxi = 4; % Antalet platser i taxibilen.
 klockan = 0; % klockan går mellan 0 och 57600 sekunder (16 timmar).
@@ -116,7 +114,7 @@ for i = 1:tid
             s = 1;
             stracka = [];
             %*****Beräkning av samåkning******************
-            kundlista(j,13) = floor((1+kundlista(j,5))*(abs(kundlista(j,3)-kundlista(j,1)) + abs(kundlista(j,4) - kundlista(j,2))));
+            kundlista(j,13) = floor((1+0.5)*(abs(kundlista(j,3)-kundlista(j,1)) + abs(kundlista(j,4) - kundlista(j,2))));
             %***********************************************
             for k = 1:Antal_bilar
                 if (Taxibilar(k,1) == 0) % Tilldelar en taxi ett jobb om taxin är ledig
