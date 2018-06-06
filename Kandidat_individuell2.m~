@@ -6,11 +6,11 @@ yled = 600;
 stad = zeros(xled,yled);
 tid = 100000; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
-Antal_bilar = 5;
+Antal_bilar = 10;
 Taxibilar = zeros(Antal_bilar,5);
 Taxibilar(:,2) = 300; % Startposition för taxibilarnar i x-led
 Taxibilar(:,3) = 300; % Startposition för taxibilarnar i y-led
-listan = xlsread('Kundlista250');
+listan = xlsread('Kundlista2500_2');
 [rows,columns] = size(listan);
 kundlista = sortrows(listan,6);
 A = zeros(1,rows); % Lägger till en nollvektor där nollan motsvarar kundens status.
@@ -161,7 +161,6 @@ for i = 1:tid
             end
         end
         klockan = klockan +1;
-        
 end
 Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
 Total_vantetid = sum(kundlista(:,9));
@@ -170,4 +169,3 @@ for i = 1:rows
     Vantetid_ringt_upphamtad(i) = kundlista(i,10) - kundlista(i,6);
 end
 YOLO = sum(Vantetid_ringt_upphamtad)/(60*rows);
-SWAG = max(kundlista(:,10));

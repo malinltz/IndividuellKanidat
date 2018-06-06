@@ -4,7 +4,7 @@ clear;
 xled = 600;
 yled = 600;
 stad = zeros(xled,yled);
-tid = 60000; % Antal sekunder på 16 timmar
+tid = 100000; % Antal sekunder på 16 timmar
 %Skapar en matris för de 10 taxibilarna som kommer användas.
 Antal_bilar = 10;
 Taxibilar = zeros(Antal_bilar,6);
@@ -362,12 +362,9 @@ disp(['Antalet samåkning som heuristiken genomförde var: ', num2str(samAkning_an
 Totalt_avlamnde_kunder = sum(Taxibilar(:,4));
 Total_vantetid = sum(kundlista(:,9));
 Total_vantetid_snitt_minuter = Total_vantetid /(rows *60);
-arg = 0;
+
 for i = 1:rows
 Vantetid_ringt_upphamtad(i) = kundlista(i,10) - kundlista(i,6);
-    if(Vantetid_ringt_upphamtad(i) > 9000)
-        arg = arg+1;
-    end
 end
 YOLO = sum(Vantetid_ringt_upphamtad)/(60*rows);
 SWAG = max(kundlista(:,10));
